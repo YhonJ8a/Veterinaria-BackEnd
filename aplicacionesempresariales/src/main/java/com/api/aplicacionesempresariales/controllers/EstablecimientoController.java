@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.aplicacionesempresariales.dtos.EstablecimientoCreateDto;
 import com.api.aplicacionesempresariales.dtos.EstablecimientoDto;
+import com.api.aplicacionesempresariales.dtos.ServicioPorEstablecimientoCreateDto;
+import com.api.aplicacionesempresariales.dtos.ServicioPorEstablecimientoDto;
 import com.api.aplicacionesempresariales.services.EstablecimientoService;
 
 import jakarta.validation.Valid;
@@ -51,5 +53,16 @@ public class EstablecimientoController {
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         establecimientoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/servicios")
+    public ResponseEntity<List<ServicioPorEstablecimientoDto>> getServiciosById(@PathVariable UUID id) {
+        return ResponseEntity.ok(establecimientoService.findServiciosById(id));
+    }
+
+    @PostMapping("/{id}/servicios")
+    public ResponseEntity<ServicioPorEstablecimientoDto> createServiceXEstablecimiento(@PathVariable UUID id,
+            @RequestBody @Valid ServicioPorEstablecimientoCreateDto dto) {
+        return ResponseEntity.ok(establecimientoService.createService(id, dto));
     }
 }

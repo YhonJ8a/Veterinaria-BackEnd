@@ -2,7 +2,13 @@ package com.api.aplicacionesempresariales.mappers;
 
 import com.api.aplicacionesempresariales.dtos.*;
 import com.api.aplicacionesempresariales.models.Establecimiento;
+import com.api.aplicacionesempresariales.models.ServicioPorEstablecimiento;
+
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -17,5 +23,17 @@ public class EstablecimientoMapper {
 
     public Establecimiento toEntity(EstablecimientoCreateDto dto) {
         return mapper.map(dto, Establecimiento.class);
+    }
+
+    public ServicioPorEstablecimientoDto toSxEDto(ServicioPorEstablecimiento entity) {
+        return mapper.map(entity, ServicioPorEstablecimientoDto.class);
+    }
+
+    public List<ServicioPorEstablecimientoDto> toSxEDtos(List<ServicioPorEstablecimiento> entities) {
+        return entities.stream().map(this::toSxEDto).toList();
+    }
+
+    public ServicioPorEstablecimiento toEntityService(ServicioPorEstablecimientoCreateDto dto) {
+        return mapper.map(dto, ServicioPorEstablecimiento.class);
     }
 }

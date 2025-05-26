@@ -13,11 +13,11 @@ public class ServicioPorEstablecimiento {
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "establecimiento_id")
     private Establecimiento establecimiento;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "servicio_id")
     private Servicio servicio;
 }
