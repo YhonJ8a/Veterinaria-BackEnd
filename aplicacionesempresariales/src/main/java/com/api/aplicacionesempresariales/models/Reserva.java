@@ -24,10 +24,10 @@ public class Reserva {
     private Horario horario;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @JoinColumn(name = "mascota_id")
+    private Mascota mascota;
 
     @ManyToOne
-    @JoinColumn(name = "funcionario_id")
+    @JoinColumn(name = "usuario_id")
     private Usuario funcionario;
 }

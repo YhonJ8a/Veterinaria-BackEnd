@@ -16,4 +16,6 @@ public interface PerfilService {
     public PerfilDto findById(UUID id);
 
     public List<PerfilDto> findAll();
+
+    public PerfilDto findByPerfil(String perfil);
 }

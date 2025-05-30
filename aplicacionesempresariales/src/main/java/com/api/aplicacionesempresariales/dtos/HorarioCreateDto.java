@@ -13,7 +13,7 @@ public class HorarioCreateDto {
     private LocalDate fecha;
 
     @NotNull
-    private LocalTime hora;
+    private LocalTime horaStar;
 
     @Min(1)
     private int duracion;

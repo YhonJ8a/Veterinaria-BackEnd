@@ -2,6 +2,7 @@ package com.api.aplicacionesempresariales.services.impl;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -12,7 +13,9 @@ import com.api.aplicacionesempresariales.dtos.HorarioCreateDto;
 import com.api.aplicacionesempresariales.dtos.HorarioDto;
 import com.api.aplicacionesempresariales.mappers.HorarioMapper;
 import com.api.aplicacionesempresariales.models.Horario;
+import com.api.aplicacionesempresariales.models.Usuario;
 import com.api.aplicacionesempresariales.repositories.HorarioRepository;
+import com.api.aplicacionesempresariales.repositories.UsuarioRepository;
 import com.api.aplicacionesempresariales.services.HorarioService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,15 +25,24 @@ import lombok.RequiredArgsConstructor;
 class HorarioServiceImpl implements HorarioService {
     private final HorarioRepository repo;
     private final HorarioMapper mapper;
+    private final UsuarioRepository usuarioRepository;
 
     public HorarioDto create(HorarioCreateDto dto) {
-        return mapper.toDto(repo.save(mapper.toEntity(dto)));
+        Horario horario = mapper.toEntity(dto);
+        Usuario usuario = usuarioRepository.findById(dto.getFuncionarioId())
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        horario.setFuncionario(usuario);
+        LocalTime horaFin = dto.getHoraStar().plusMinutes(dto.getDuracion());
+        horario.setHoraEnd(horaFin);
+        return mapper.toDto(repo.save(horario));
     }
 
     public HorarioDto update(UUID id, HorarioCreateDto dto) {
         Horario h = repo.findById(id).orElseThrow();
         h.setFecha(dto.getFecha());
-        h.setHora(dto.getHora());
+        h.setHoraStar(dto.getHoraStar());
+        LocalTime horaFin = dto.getHoraStar().plusMinutes(dto.getDuracion());
+        h.setHoraEnd(horaFin);
         h.setDuracion(dto.getDuracion());
         return mapper.toDto(repo.save(h));
     }

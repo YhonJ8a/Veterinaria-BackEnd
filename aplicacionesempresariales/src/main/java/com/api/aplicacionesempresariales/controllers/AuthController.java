@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.aplicacionesempresariales.dtos.JwtResponseDto;
 import com.api.aplicacionesempresariales.dtos.LoginRequestDto;
-import com.api.aplicacionesempresariales.dtos.UsuarioCreateDto;
+import com.api.aplicacionesempresariales.dtos.UsuarioCreateDtoUser;
 import com.api.aplicacionesempresariales.dtos.UsuarioDto;
 import com.api.aplicacionesempresariales.services.AuthService;
 
@@ -28,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UsuarioDto> register(@RequestBody @Valid UsuarioCreateDto dto) {
+    public ResponseEntity<UsuarioDto> register(@RequestBody @Valid UsuarioCreateDtoUser dto) {
         return ResponseEntity.ok(authService.register(dto));
     }
 

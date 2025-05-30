@@ -19,9 +19,11 @@ public class Mascota {
     private String identificacion;
     private LocalDate fechaNac;
     private String fotoUrl;
+    @Column(updatable = false)
+    @org.hibernate.annotations.CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "responsable_id")
     private Usuario responsable;
 }

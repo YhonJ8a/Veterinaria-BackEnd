@@ -16,7 +16,8 @@ public class Horario {
     private UUID id;
 
     private LocalDate fecha;
-    private LocalTime hora;
+    private LocalTime horaStar;
+    private LocalTime horaEnd;
     private int duracion;
 
     @ManyToOne

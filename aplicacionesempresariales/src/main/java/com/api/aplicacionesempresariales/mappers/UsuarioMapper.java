@@ -33,6 +33,10 @@ public class UsuarioMapper {
         return mapper.map(dto, Usuario.class);
     }
 
+    public Usuario toEntity(UsuarioCreateDtoUser dto) {
+        return mapper.map(dto, Usuario.class);
+    }
+
     public void updateEntity(UsuarioUpdateDto dto, Usuario usuario) {
         mapper.getConfiguration().setSkipNullEnabled(true);
         mapper.map(dto, usuario);

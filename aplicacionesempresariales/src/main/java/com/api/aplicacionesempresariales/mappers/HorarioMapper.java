@@ -18,4 +18,8 @@ public class HorarioMapper {
     public Horario toEntity(HorarioCreateDto dto) {
         return mapper.map(dto, Horario.class);
     }
+
+    public Horario toSuperEntity(ReservaCreateDto dto) {
+        return mapper.map(dto, Horario.class);
+    }
 }

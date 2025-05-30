@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AplicacionesempresarialesApplication<aplicacionesempresariales>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.aplicacionesempresariales.AplicacionesempresarialesApplication",
+            "projectName": "aplicacionesempresariales",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

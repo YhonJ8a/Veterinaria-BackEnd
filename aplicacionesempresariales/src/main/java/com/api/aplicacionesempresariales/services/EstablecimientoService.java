@@ -7,6 +7,7 @@ import com.api.aplicacionesempresariales.dtos.EstablecimientoCreateDto;
 import com.api.aplicacionesempresariales.dtos.EstablecimientoDto;
 import com.api.aplicacionesempresariales.dtos.ServicioPorEstablecimientoCreateDto;
 import com.api.aplicacionesempresariales.dtos.ServicioPorEstablecimientoDto;
+import com.api.aplicacionesempresariales.models.Servicio;
 
 public interface EstablecimientoService {
 
@@ -21,6 +22,8 @@ public interface EstablecimientoService {
     public List<EstablecimientoDto> findAll();
 
     public List<ServicioPorEstablecimientoDto> findServiciosById(UUID id);
+
+    public List<Servicio> getServiciosById(UUID id);
 
     public ServicioPorEstablecimientoDto createService(UUID id, ServicioPorEstablecimientoCreateDto dto);
 }

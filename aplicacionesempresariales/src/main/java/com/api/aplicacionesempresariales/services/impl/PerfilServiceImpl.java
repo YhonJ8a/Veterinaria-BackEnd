@@ -42,4 +42,10 @@ class PerfilServiceImpl implements PerfilService {
     public List<PerfilDto> findAll() {
         return repo.findAll().stream().map(mapper::toDto).collect(Collectors.toList());
     }
+
+    public PerfilDto findByPerfil(String perfil) {
+        return mapper.toDto(
+                repo.findByPerfil(perfil).orElseThrow(() -> new IllegalArgumentException("Perfil no encontrado")));
+    }
+
 }

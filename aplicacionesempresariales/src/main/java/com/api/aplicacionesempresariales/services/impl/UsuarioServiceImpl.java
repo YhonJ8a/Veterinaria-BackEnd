@@ -79,8 +79,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioDto update(UUID id, UsuarioUpdateDto dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        usuario.setNombres(dto.getNombres());
+        usuario.setApellidos(dto.getApellidos());
+        usuario.setFotoUrl(dto.getFotoUrl());
+        usuario.setDni(dto.getDni());
+        usuario.setCorreo(dto.getCorreo());
+        usuario.setPerfil(perfilMapper.toEntity(perfilService.findById(dto.getPerfilId())));
+        usuarioRepository.save(usuario);
+        return usuarioMapper.toDto(usuario);
     }
 
     @Override

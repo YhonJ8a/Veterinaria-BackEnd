@@ -33,5 +33,7 @@ public class Usuario {
     @JoinColumn(name = "establecimiento_id")
     private Establecimiento establecimiento;
 
+    @Column(updatable = false)
+    @org.hibernate.annotations.CreationTimestamp
     private LocalDateTime createdAt;
 }

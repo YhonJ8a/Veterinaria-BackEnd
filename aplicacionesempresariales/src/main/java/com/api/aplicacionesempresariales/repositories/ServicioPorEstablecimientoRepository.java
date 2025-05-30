@@ -1,5 +1,6 @@
 package com.api.aplicacionesempresariales.repositories;
 
+import com.api.aplicacionesempresariales.models.Servicio;
 import com.api.aplicacionesempresariales.models.ServicioPorEstablecimiento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,4 +14,7 @@ public interface ServicioPorEstablecimientoRepository extends JpaRepository<Serv
     List<ServicioPorEstablecimiento> findByEstablecimientoId(UUID establecimientoId);
 
     List<ServicioPorEstablecimiento> findByServicioId(UUID id);
+
+    List<Servicio> getByEstablecimientoId(UUID id);
+
 }

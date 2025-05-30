@@ -17,6 +17,7 @@ import com.api.aplicacionesempresariales.dtos.EstablecimientoCreateDto;
 import com.api.aplicacionesempresariales.dtos.EstablecimientoDto;
 import com.api.aplicacionesempresariales.dtos.ServicioPorEstablecimientoCreateDto;
 import com.api.aplicacionesempresariales.dtos.ServicioPorEstablecimientoDto;
+import com.api.aplicacionesempresariales.models.Servicio;
 import com.api.aplicacionesempresariales.services.EstablecimientoService;
 
 import jakarta.validation.Valid;
@@ -56,7 +57,12 @@ public class EstablecimientoController {
     }
 
     @GetMapping("/{id}/servicios")
-    public ResponseEntity<List<ServicioPorEstablecimientoDto>> getServiciosById(@PathVariable UUID id) {
+    public ResponseEntity<List<Servicio>> getServiciosById(@PathVariable UUID id) {
+        return ResponseEntity.ok(establecimientoService.getServiciosById(id));
+    }
+
+    @GetMapping("/{id}/serviciosxe")
+    public ResponseEntity<List<ServicioPorEstablecimientoDto>> getServiciosxeById(@PathVariable UUID id) {
         return ResponseEntity.ok(establecimientoService.findServiciosById(id));
     }
 

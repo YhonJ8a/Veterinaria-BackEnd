@@ -7,8 +7,8 @@ import java.util.UUID;
 public class ReservaDto {
     private UUID id;
     private String estado;
-    private ServicioDto servicio;
+    private ServicioPorEstablecimientoDto servicio;
     private HorarioDto horario;
-    private UsuarioDto usuario;
+    private MascotaDto mascota;
     private UsuarioDto funcionario;
 }

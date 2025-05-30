@@ -1,5 +1,7 @@
 package com.api.aplicacionesempresariales.repositories;
 
+import com.api.aplicacionesempresariales.models.Horario;
+import com.api.aplicacionesempresariales.models.Mascota;
 import com.api.aplicacionesempresariales.models.Reserva;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, UUID> {
 
-    List<Reserva> findByUsuarioId(UUID usuarioId);
+    List<Reserva> findByMascotaId(UUID mascotaId);
 
     List<Reserva> findByFuncionarioId(UUID funcionarioId);
 
@@ -19,4 +21,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, UUID> {
 
     @Query("SELECT r FROM Reserva r WHERE r.horario.fecha BETWEEN :startDate AND :endDate")
     List<Reserva> findByFechaRange(LocalDate startDate, LocalDate endDate);
+
+    boolean existsByHorarioAndMascota(Horario horario, Mascota mascota);
+
 }

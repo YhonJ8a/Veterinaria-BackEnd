@@ -16,5 +16,4 @@ public class Servicio {
     private String descripcion;
     private String estado;
     private Double valor;
-
 }

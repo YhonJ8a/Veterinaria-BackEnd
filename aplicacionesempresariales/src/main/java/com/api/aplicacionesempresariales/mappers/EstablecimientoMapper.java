@@ -2,6 +2,7 @@ package com.api.aplicacionesempresariales.mappers;
 
 import com.api.aplicacionesempresariales.dtos.*;
 import com.api.aplicacionesempresariales.models.Establecimiento;
+import com.api.aplicacionesempresariales.models.Servicio;
 import com.api.aplicacionesempresariales.models.ServicioPorEstablecimiento;
 
 import jakarta.annotation.PostConstruct;
@@ -31,6 +32,10 @@ public class EstablecimientoMapper {
 
     public List<ServicioPorEstablecimientoDto> toSxEDtos(List<ServicioPorEstablecimiento> entities) {
         return entities.stream().map(this::toSxEDto).toList();
+    }
+
+    public List<Servicio> toSeEDtos(List<ServicioPorEstablecimiento> entities) {
+        return entities.stream().map(ServicioPorEstablecimiento::getServicio).toList();
     }
 
     public ServicioPorEstablecimiento toEntityService(ServicioPorEstablecimientoCreateDto dto) {

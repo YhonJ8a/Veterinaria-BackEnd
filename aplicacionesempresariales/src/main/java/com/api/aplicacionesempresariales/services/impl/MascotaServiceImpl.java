@@ -32,7 +32,6 @@ class MascotaServiceImpl implements MascotaService {
         Usuario usuario = usuarioRepository.findById(dto.getResponsableId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
         mascota.setResponsable(usuario);
-        mascota.setCreatedAt(java.time.LocalDateTime.now());
         return mapper.toDto(repo.save(mascota));
     }
 

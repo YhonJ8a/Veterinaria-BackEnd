@@ -59,13 +59,14 @@ class EstablecimientoServiceImpl implements EstablecimientoService {
         return mapper.toSxEDtos(repoServices.findByEstablecimientoId(id));
     }
 
+    public List<Servicio> getServiciosById(UUID id) {
+        return mapper.toSeEDtos(repoServices.findByEstablecimientoId(id));
+    }
+
     public ServicioPorEstablecimientoDto createService(UUID id, ServicioPorEstablecimientoCreateDto dto) {
         ServicioPorEstablecimiento relacion = mapper.toEntityService(dto);
-        System.out.println("### dto ###: " + dto);
-        System.out.println("getServicioId: " + dto.getServicioId());
         relacion.setEstablecimiento(repo.findById(id).orElseThrow());
         relacion.setServicio(repoSer.findById(dto.getServicioId()).orElseThrow());
-        System.out.println("Relacion: " + relacion);
         return mapper.toSxEDto(repoServices.save(relacion));
     }
 }

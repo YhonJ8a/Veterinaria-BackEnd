@@ -9,7 +9,7 @@ import java.util.UUID;
 public class HorarioDto {
     private UUID id;
     private LocalDate fecha;
-    private LocalTime hora;
+    private LocalTime horaStar;
     private int duracion;
     private UsuarioDto funcionario;
 }

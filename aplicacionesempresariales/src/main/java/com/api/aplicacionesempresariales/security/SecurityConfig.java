@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/perfiles/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/establecimientos/**").permitAll()
                 .requestMatchers("/api/reservas/**").hasAnyRole("ADMINISTRADOR", "MEDICO_VETERINARIO", "USUARIO_FINAL")
-                .requestMatchers("/api/horarios/**").hasAnyRole("ADMINISTRADOR", "MEDICO_VETERINARIO")
+                .requestMatchers("/api/horarios/**").hasAnyRole("ADMINISTRADOR", "MEDICO_VETERINARIO", "USUARIO_FINAL")
                 .anyRequest().hasAnyRole("ADMINISTRADOR", "MEDICO_VETERINARIO", "USUARIO_FINAL")
                 // .anyRequest().hasRole("ADMINISTRADOR")
                 .and()

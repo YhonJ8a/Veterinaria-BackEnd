@@ -61,14 +61,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public UsuarioDto register(UsuarioCreateDto dto) {
+    public UsuarioDto register(UsuarioCreateDtoUser dto) {
         if (usuarioRepository.findByCorreo(dto.getCorreo()).isPresent()) {
             throw new IllegalArgumentException("El correo electrónico ya está registrado");
         }
         // dto.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         Usuario usuario = usuarioMapper.toEntity(dto);
-        usuario.setPerfil(perfilMapper.toEntity(perfilService.findById(dto.getPerfilId())));
+        usuario.setPerfil(perfilMapper.toEntity(perfilService.findByPerfil("USUARIO_FINAL")));
         usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
         System.out.println("Usuario a registrar: " + usuario);
         return usuarioMapper.toDto(usuarioRepository.save(usuario));
