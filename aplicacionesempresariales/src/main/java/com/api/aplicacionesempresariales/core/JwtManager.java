@@ -49,22 +49,21 @@ public class JwtManager {
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            System.out.println("Token is valid");
             return true;
         } catch (JwtException e) {
-            System.out.println("Token is not valid");
             return false;
         }
     }
 
     public String extractUsername(String token) {
         try {
+            if (isTokenExpired(token)) {
+                throw new IllegalArgumentException("Token has expired");
+            }
             String subject = extractClaim(token, Claims::getSubject);
-            System.out.println("extractUsername: " + subject);
             return subject;
         } catch (Exception e) {
-            System.out.println("Error extracting subject: " + e.getMessage());
-            return null;
+            throw new IllegalArgumentException("Invalid token: " + e.getMessage());
         }
     }
 

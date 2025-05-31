@@ -15,6 +15,10 @@ public class CalificacionMapper {
         return mapper.map(entity, CalificacionDto.class);
     }
 
+    public CalificacionSimpleDto toSimpleDto(Calificacion entity) {
+        return mapper.map(entity, CalificacionSimpleDto.class);
+    }
+
     public Calificacion toEntity(CalificacionCreateDto dto) {
         return mapper.map(dto, Calificacion.class);
     }

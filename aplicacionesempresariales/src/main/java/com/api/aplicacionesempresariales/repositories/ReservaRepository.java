@@ -24,4 +24,11 @@ public interface ReservaRepository extends JpaRepository<Reserva, UUID> {
 
     boolean existsByHorarioAndMascota(Horario horario, Mascota mascota);
 
+    @Query("SELECT r FROM Reserva r WHERE r.mascota.id = :mascotaId AND r.estado = 'PENDIENTE'")
+    List<Reserva> validateRecerva(UUID mascotaId);
+
+    default boolean existsReservaByMascotaAndEstado(UUID mascotaId) {
+        return !validateRecerva(mascotaId).isEmpty();
+    }
+
 }

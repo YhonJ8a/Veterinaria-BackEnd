@@ -15,6 +15,8 @@ public class Calificacion {
 
     private String comentario;
 
+    private int estrellas;
+
     @ManyToOne
     @JoinColumn(name = "reserva_id")
     private Reserva reserva;

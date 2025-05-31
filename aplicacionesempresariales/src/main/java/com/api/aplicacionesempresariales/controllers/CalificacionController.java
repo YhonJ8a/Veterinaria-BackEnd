@@ -20,8 +20,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/calificaciones")
 @RequiredArgsConstructor
+@RequestMapping("/api/calificaciones")
 public class CalificacionController {
     private final CalificacionService calificacionService;
 

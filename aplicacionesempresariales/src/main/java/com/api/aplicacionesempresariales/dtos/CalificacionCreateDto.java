@@ -7,9 +7,12 @@ import java.util.UUID;
 
 @Data
 public class CalificacionCreateDto {
-    @NotBlank
-    private String comentario;
 
-    @NotNull
+    private String comentario = "";
+
     private UUID reservaId;
+
+    @Min(1)
+    @Max(5)
+    private int estrellas = 4;
 }

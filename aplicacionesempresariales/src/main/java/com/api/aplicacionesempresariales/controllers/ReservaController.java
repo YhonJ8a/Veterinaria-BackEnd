@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.aplicacionesempresariales.dtos.*;
-
+import com.api.aplicacionesempresariales.services.CalificacionService;
 import com.api.aplicacionesempresariales.services.ReservaService;
 
 import jakarta.validation.Valid;
@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReservaController {
     private final ReservaService reservaService;
+    private final CalificacionService calificacionService;
 
     @PostMapping
     public ResponseEntity<ReservaDto> create(@RequestBody @Valid ReservaCreateDto dto) {
@@ -34,6 +35,11 @@ public class ReservaController {
     @GetMapping("/{id}")
     public ResponseEntity<ReservaDto> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(reservaService.findById(id));
+    }
+
+    @GetMapping("/{id}/calificaciones")
+    public ResponseEntity<List<CalificacionSimpleDto>> getCalificacionesById(@PathVariable UUID id) {
+        return ResponseEntity.ok(calificacionService.calificacionesByIdReserva(id));
     }
 
     @GetMapping
@@ -62,5 +68,16 @@ public class ReservaController {
     public ResponseEntity<ReservaDto> cancelar(@PathVariable UUID id) {
         reservaService.cancelar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/calificar")
+    public ResponseEntity<CalificacionDto> create(@PathVariable UUID id,
+            @RequestBody @Valid CalificacionCreateDto dto) {
+        dto.setReservaId(id);
+        if (dto.getEstrellas() < 1 || dto.getEstrellas() > 5) {
+            throw new IllegalArgumentException("La puntuación debe estar entre 1 y 5");
+        }
+        System.out.println("Calificación DTO: " + dto);
+        return ResponseEntity.ok(calificacionService.create(dto));
     }
 }

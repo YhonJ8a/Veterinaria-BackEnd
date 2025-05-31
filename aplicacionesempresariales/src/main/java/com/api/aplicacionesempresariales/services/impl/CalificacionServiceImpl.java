@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.api.aplicacionesempresariales.dtos.CalificacionCreateDto;
 import com.api.aplicacionesempresariales.dtos.CalificacionDto;
+import com.api.aplicacionesempresariales.dtos.CalificacionSimpleDto;
 import com.api.aplicacionesempresariales.mappers.CalificacionMapper;
+import com.api.aplicacionesempresariales.models.Calificacion;
 import com.api.aplicacionesempresariales.repositories.CalificacionRepository;
+import com.api.aplicacionesempresariales.repositories.ReservaRepository;
 import com.api.aplicacionesempresariales.services.CalificacionService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,9 +22,18 @@ import lombok.RequiredArgsConstructor;
 class CalificacionServiceImpl implements CalificacionService {
     private final CalificacionRepository repo;
     private final CalificacionMapper mapper;
+    private final ReservaRepository repoRe;
 
     public CalificacionDto create(CalificacionCreateDto dto) {
-        return mapper.toDto(repo.save(mapper.toEntity(dto)));
+        Calificacion calificacion = mapper.toEntity(dto);
+        calificacion.setReserva(repoRe.findById(dto.getReservaId()).orElseThrow());
+        return mapper.toDto(repo.save(calificacion));
+    }
+
+    public List<CalificacionSimpleDto> calificacionesByIdReserva(UUID id) {
+        return repo.findByReservaId(id).stream()
+                .map(mapper::toSimpleDto)
+                .collect(Collectors.toList());
     }
 
     public void delete(UUID id) {

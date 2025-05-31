@@ -3,16 +3,13 @@ package com.api.aplicacionesempresariales.services.impl;
 import com.api.aplicacionesempresariales.dtos.*;
 import com.api.aplicacionesempresariales.mappers.PerfilMapper;
 import com.api.aplicacionesempresariales.mappers.UsuarioMapper;
-import com.api.aplicacionesempresariales.models.Perfil;
 import com.api.aplicacionesempresariales.models.Usuario;
-import com.api.aplicacionesempresariales.repositories.PerfilRepository;
 import com.api.aplicacionesempresariales.repositories.UsuarioRepository;
 import com.api.aplicacionesempresariales.services.PerfilService;
 import com.api.aplicacionesempresariales.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -80,7 +77,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioDto update(UUID id, UsuarioUpdateDto dto) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
         usuario.setNombres(dto.getNombres());
         usuario.setApellidos(dto.getApellidos());
         usuario.setFotoUrl(dto.getFotoUrl());

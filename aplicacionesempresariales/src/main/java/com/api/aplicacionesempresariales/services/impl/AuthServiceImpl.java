@@ -65,35 +65,11 @@ public class AuthServiceImpl implements AuthService {
         if (usuarioRepository.findByCorreo(dto.getCorreo()).isPresent()) {
             throw new IllegalArgumentException("El correo electrónico ya está registrado");
         }
-        // dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-
         Usuario usuario = usuarioMapper.toEntity(dto);
         usuario.setPerfil(perfilMapper.toEntity(perfilService.findByPerfil("USUARIO_FINAL")));
         usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
         System.out.println("Usuario a registrar: " + usuario);
         return usuarioMapper.toDto(usuarioRepository.save(usuario));
-
-        // return usuarioService.create(dto);
     }
 
-    // @Override
-    // public JwtResponseDto refreshToken(TokenRefreshRequestDto dto) {
-    // if (!jwtTokenProvider.validateToken(dto.getRefreshToken())) {
-    // throw new IllegalArgumentException("Refresh token inválido o expirado");
-    // }
-
-    // String email = jwtTokenProvider.getUsernameFromToken(dto.getRefreshToken());
-    // Usuario usuario = usuarioRepository.findByEmail(email)
-    // .orElseThrow(() -> new UnauthorizedException("Usuario no encontrado"));
-
-    // String newAccessToken = jwtTokenProvider.generateTokenFromUser(usuario);
-    // String newRefreshToken =
-    // jwtTokenProvider.generateRefreshTokenFromUser(usuario);
-
-    // return JwtResponseDto.builder()
-    // .accessToken(newAccessToken)
-    // .refreshToken(newRefreshToken)
-    // .usuario(usuarioService.mapToDto(usuario))
-    // .build();
-    // }
 }

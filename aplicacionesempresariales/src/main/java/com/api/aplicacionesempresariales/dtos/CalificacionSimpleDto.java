@@ -4,9 +4,8 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class CalificacionDto {
+public class CalificacionSimpleDto {
     private UUID id;
     private String comentario;
-    private ReservaDto reserva;
     private int estrellas;
 }

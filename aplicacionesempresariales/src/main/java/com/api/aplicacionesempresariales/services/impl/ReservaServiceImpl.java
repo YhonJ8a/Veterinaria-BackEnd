@@ -38,13 +38,8 @@ class ReservaServiceImpl implements ReservaService {
     private final MascotaRepository masciotaRepository;
     private final ServicioPorEstablecimientoRepository repoServicesXE;
 
-    // PARECE SER ESTA TOMANDO COMO LLAVES PRINCIPALES A LOS IDS DE USUARIO Y
-    // MASCOTA
-    // EN VEZ DE A LA RESERVA, POR ESO NO SE PUEDE CREAR UNA NUEVA RESERVA
-
     public ReservaDto create(ReservaCreateDto dto) {
 
-        System.out.println("ReservaCreateDto: " + dto);
         Horario horario = mapper_h.toSuperEntity(dto);
         Usuario usuario = usuarioRepository.findById(dto.getFuncionarioId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
@@ -57,26 +52,28 @@ class ReservaServiceImpl implements ReservaService {
                 dto.getFecha(),
                 dto.getHora(),
                 horaFin);
+
         if (disponibilidad.size() > 0) {
             throw new IllegalArgumentException("El horario no está disponible");
+        }
+        if (repo.existsReservaByMascotaAndEstado(dto.getMascotaId())) {
+            throw new IllegalArgumentException("Ya existe una reserva pendiente para esta mascota");
         }
         horario.setHoraStar(dto.getHora());
         horario.setHoraEnd(horaFin);
         Horario horarioGuardado = horarioRepository.save(horario);
-
-        if (repo.existsByHorarioAndMascota(horarioGuardado,
-                masciotaRepository.findById(dto.getMascotaId()).orElseThrow())) {
-            horarioRepository.delete(horarioGuardado);
-            throw new IllegalArgumentException("Ya existe una reserva para ese horario y mascota");
-        }
 
         try {
             Reserva reserva = new Reserva();
             reserva.setEstado("PENDIENTE");
             reserva.setFuncionario(usuario);
             reserva.setHorario(horarioGuardado);
-            reserva.setMascota(masciotaRepository.findById(dto.getMascotaId()).orElseThrow());
-            reserva.setServicio(repoServicesXE.findById(dto.getServicioId()).orElseThrow());
+            reserva.setMascota(
+                    masciotaRepository.findById(dto.getMascotaId())
+                            .orElseThrow(() -> new IllegalArgumentException("Mascota no encontrada")));
+            reserva.setServicio(
+                    repoServicesXE.findById(dto.getServicioId())
+                            .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado")));
 
             return mapper.toDto(repo.save(reserva));
         } catch (Exception e) {
