@@ -5,7 +5,6 @@ import com.api.aplicacionesempresariales.models.Establecimiento;
 import com.api.aplicacionesempresariales.models.Servicio;
 import com.api.aplicacionesempresariales.models.ServicioPorEstablecimiento;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

@@ -70,13 +70,11 @@ class HorarioServiceImpl implements HorarioService {
 
     @Override
     public List<HorarioDto> buscarPorFuncionario(UUID funcionarioId) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'buscarPorFuncionario'");
     }
 
     @Override
     public List<HorarioDto> buscarPorFecha(Date fecha) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'buscarPorFecha'");
     }
 }

@@ -13,10 +13,8 @@ import com.api.aplicacionesempresariales.mappers.MascotaMapper;
 import com.api.aplicacionesempresariales.models.Mascota;
 import com.api.aplicacionesempresariales.models.Usuario;
 import com.api.aplicacionesempresariales.repositories.MascotaRepository;
-import com.api.aplicacionesempresariales.repositories.ServicioRepository;
 import com.api.aplicacionesempresariales.repositories.UsuarioRepository;
 import com.api.aplicacionesempresariales.services.MascotaService;
-import com.api.aplicacionesempresariales.services.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
 

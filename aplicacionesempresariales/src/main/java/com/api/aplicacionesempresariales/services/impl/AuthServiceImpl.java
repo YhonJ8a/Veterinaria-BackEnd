@@ -4,7 +4,9 @@ import com.api.aplicacionesempresariales.core.JwtManager;
 import com.api.aplicacionesempresariales.dtos.*;
 import com.api.aplicacionesempresariales.mappers.PerfilMapper;
 import com.api.aplicacionesempresariales.mappers.UsuarioMapper;
+import com.api.aplicacionesempresariales.models.Establecimiento;
 import com.api.aplicacionesempresariales.models.Usuario;
+import com.api.aplicacionesempresariales.repositories.EstablecimientoRepository;
 import com.api.aplicacionesempresariales.repositories.UsuarioRepository;
 import com.api.aplicacionesempresariales.services.AuthService;
 import com.api.aplicacionesempresariales.services.PerfilService;
@@ -30,6 +32,7 @@ public class AuthServiceImpl implements AuthService {
     private final PerfilService perfilService;
     private final UsuarioMapper usuarioMapper;
     private final PerfilMapper perfilMapper;
+    private final EstablecimientoRepository repoEstablecimiento;
 
     @Override
     public JwtResponseDto login(LoginRequestDto dto) {
@@ -72,4 +75,32 @@ public class AuthServiceImpl implements AuthService {
         return usuarioMapper.toDto(usuarioRepository.save(usuario));
     }
 
+    @Override
+    @Transactional
+    public UsuarioDto registerEstablecimiento(UserEstablecimientoCreateDto dto) {
+        if (usuarioRepository.findByCorreo(dto.getCorreo_usuario()).isPresent()) {
+            throw new IllegalArgumentException("El correo electrónico ya está registrado");
+        }
+        Usuario usuario = new Usuario();
+        Establecimiento establecimiento = new Establecimiento();
+
+        establecimiento.setNombre(dto.getNombre_establecimiento());
+        establecimiento.setDireccion(dto.getDireccion_establecimiento());
+        establecimiento.setDepartamento(dto.getDepartamento_establecimiento());
+        establecimiento.setStartTime(dto.getStartTime_establecimiento());
+        establecimiento.setEndTime(dto.getEndTime_establecimiento());
+
+        Establecimiento savedEstablecimiento = repoEstablecimiento.save(establecimiento);
+        usuario.setEstablecimiento(savedEstablecimiento);
+        usuario.setNombres(dto.getNombre_usuario());
+        usuario.setApellidos(dto.getApellido_usuario());
+        usuario.setDni(dto.getDni_usuario());
+        usuario.setFechaNac(dto.getFechaNac_usuario());
+        usuario.setFotoUrl(dto.getFotoUrl_usuario());
+        usuario.setCorreo(dto.getCorreo_usuario());
+        usuario.setPerfil(perfilMapper.toEntity(perfilService.findByPerfil("ADMINISTRADOR")));
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword_usuario()));
+        System.out.println("Usuario a registrar establecimiento: " + usuario);
+        return usuarioMapper.toDto(usuarioRepository.save(usuario));
+    }
 }

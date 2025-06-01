@@ -90,7 +90,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public List<UsuarioDto> buscarPorPerfil(String perfil) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'buscarPorPerfil'");
     }
 

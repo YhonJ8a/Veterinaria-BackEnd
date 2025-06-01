@@ -1,6 +1,5 @@
 package com.api.aplicacionesempresariales.security;
 
-import com.api.aplicacionesempresariales.services.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -22,25 +22,26 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final JwtAuthenticationEntryPoint entryPoint;
-    private final UserDetailsServiceImpl userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(entryPoint)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/perfiles/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/establecimientos/**").permitAll()
-                .requestMatchers("/api/reservas/**").hasAnyRole("ADMINISTRADOR", "MEDICO_VETERINARIO", "USUARIO_FINAL")
-                .requestMatchers("/api/horarios/**").hasAnyRole("ADMINISTRADOR", "MEDICO_VETERINARIO", "USUARIO_FINAL")
-                .anyRequest().hasAnyRole("ADMINISTRADOR", "MEDICO_VETERINARIO", "USUARIO_FINAL")
-                // .anyRequest().hasRole("ADMINISTRADOR")
-                .and()
+                .cors(withDefaults()).csrf(csrf -> csrf.disable())
+                .exceptionHandling(handling -> handling.authenticationEntryPoint(entryPoint))
+                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/api/auth/**").permitAll()
+                        // .requestMatchers("/api/perfiles/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/establecimientos/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/establecimientos/**").hasAnyRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.GET, "/api/usuarios/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/**").hasAnyRole("ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.PUT, "/api/usuarios/**").hasAnyRole("ADMINISTRADOR")
+                        .requestMatchers("/api/reservas/**")
+                        .hasAnyRole("ADMINISTRADOR", "MEDICO_VETERINARIO", "USUARIO_FINAL")
+                        .requestMatchers("/api/horarios/**")
+                        .hasAnyRole("ADMINISTRADOR", "MEDICO_VETERINARIO", "USUARIO_FINAL")
+                        .anyRequest().hasAnyRole("ADMINISTRADOR", "MEDICO_VETERINARIO", "USUARIO_FINAL"))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
