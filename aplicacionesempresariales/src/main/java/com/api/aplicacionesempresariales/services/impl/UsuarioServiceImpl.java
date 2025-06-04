@@ -90,7 +90,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public List<UsuarioDto> buscarPorPerfil(String perfil) {
-        throw new UnsupportedOperationException("Unimplemented method 'buscarPorPerfil'");
+        return usuarioRepository.findByPerfil(perfilMapper.toEntity(perfilService.findByPerfil(perfil)))
+                .stream()
+                .map(usuarioMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override

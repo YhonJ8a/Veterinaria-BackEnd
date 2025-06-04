@@ -43,6 +43,12 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.findAll());
     }
 
+    @GetMapping("/docs")
+    public ResponseEntity<List<UsuarioDto>> findAllDocs() {
+        System.out.println("Fetching all users");
+        return ResponseEntity.ok(usuarioService.buscarPorPerfil("MEDICO_VETERINARIO"));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDto> update(@PathVariable UUID id, @RequestBody UsuarioUpdateDto dto) {
         return ResponseEntity.ok(usuarioService.update(id, dto));
